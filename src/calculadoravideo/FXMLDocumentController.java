@@ -13,9 +13,10 @@ import javafx.scene.control.TextField;
 public class FXMLDocumentController implements Initializable {
 
     String operacion;
-    double resultado;
-    double numero1;
-    double numero2;
+    Double respuesta=null;
+    Double resultado;
+    Double numero1=null;
+    Double numero2=null;
     private Label label;
     @FXML
     private Button uno;
@@ -65,19 +66,16 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void Boton1(ActionEvent event) {
         this.display.setText(this.display.getText() + "1");
-        numero1 = Double.parseDouble(this.display.getText());
     }
 
     @FXML
     private void Boton2(ActionEvent event) {
         this.display.setText(this.display.getText() + "2");
-        numero1 = Double.parseDouble(this.display.getText());
     }
 
     @FXML
     private void Boton3(ActionEvent event) {
         this.display.setText(this.display.getText() + "3");
-        numero1 = Double.parseDouble(this.display.getText());
     }
 
     @FXML
@@ -97,73 +95,97 @@ public class FXMLDocumentController implements Initializable {
         } else if (event.getSource() == cero) {
             this.display.setText(this.display.getText() + "0");
         }
-        numero1 = Double.parseDouble(this.display.getText());
     }
 
     @FXML
     private void InsertarOperacor(ActionEvent event) {
         if (event.getSource() == sumar) {
-            this.display.setText(this.display.getText() + "+");
+            numero1 = Double.parseDouble(this.display.getText());
             operacion = "+";
             this.display.setText("");
         } else if (event.getSource() == restar) {
-            this.display.setText(this.display.getText() + "-");
+            numero1 = Double.parseDouble(this.display.getText());
             operacion = "-";
             this.display.setText("");
         } else if (event.getSource() == multiplicar) {
-            this.display.setText(this.display.getText() + "*");
+            numero1 = Double.parseDouble(this.display.getText());
             operacion = "*";
             this.display.setText("");
         } else if (event.getSource() == dividir) {
-            this.display.setText(this.display.getText() + "/");
+            numero1 = Double.parseDouble(this.display.getText());
             operacion = "/";
             this.display.setText("");
         }
-       
-        if (event.getSource() == igual) { 
+
+        if (event.getSource() == igual) {
             numero2 = Double.parseDouble(this.display.getText());
-            this.display.setText(this.display.getText() + "=");
-            if (operacion.equalsIgnoreCase("+")) {
-                resultado=sumar(numero1,numero2);
+            if (respuesta==null) {
+               if (operacion.equalsIgnoreCase("+")) {
+                respuesta = sumar(numero1, numero2);
             } else if (operacion.equalsIgnoreCase("-")) {
-                resultado=restar(numero1,numero2);
+                respuesta = restar(numero1, numero2);
             } else if (operacion.equalsIgnoreCase("*")) {
-                resultado=multiplicar(numero1,numero2);
+                respuesta = multiplicar(numero1, numero2);
             } else if (operacion.equalsIgnoreCase("/")) {
-                resultado=dividir(numero1,numero2);
+                respuesta = dividir(numero1, numero2);
             }
+            this.display.setText("" + respuesta); 
+            }
+            else{
+             if (operacion.equalsIgnoreCase("+")) {
+                resultado = sumar(respuesta, numero2);
+            } else if (operacion.equalsIgnoreCase("-")) {
+                resultado = restar(respuesta, numero2);
+            } else if (operacion.equalsIgnoreCase("*")) {
+                resultado = multiplicar(respuesta, numero2);
+            } else if (operacion.equalsIgnoreCase("/")) {
+                resultado = dividir(respuesta, numero2);
+            }
+            this.display.setText("" + resultado);
         }
-        this.display.setText(""+resultado);
+
     }
-    
-     private double sumar(double numero1,double numero2){
-       double resultado;
-       resultado=numero1+numero2;
-       return resultado;
-     }
-      private double restar(double numero1,double numero2){
-       double resultado;
-       resultado=numero1-numero2;
-       return resultado;
     }
-      private double multiplicar(double numero1,double numero2){
-       double resultado;
-       resultado=numero1*numero2;
-       return resultado;
+
+    private double sumar(double numero1, double numero2) {
+        double resultado;
+        resultado = numero1 + numero2;
+        return resultado;
     }
-       private double dividir(double numero1,double numero2){
-       double resultado=0;
-       try{
-       resultado=numero1/numero2;
-       }catch (Exception e){display.setText("Error");}
-       return resultado;
+
+    private double restar(double numero1, double numero2) {
+        double resultado;
+        resultado = numero1 - numero2;
+        return resultado;
     }
-    @FXML
-    private void Limpiar(ActionEvent event) {
-        this.display.setText("");
+
+    private double multiplicar(double numero1, double numero2) {
+        double resultado;
+        resultado = numero1 * numero2;
+        return resultado;
+    }
+
+    private double dividir(double numero1, double numero2) {
+        double resultado = 0;
+        try {
+            resultado = numero1 / numero2;
+        } catch (Exception e) {
+            display.setText("Error");
+        }
+        return resultado;
     }
 
     @FXML
-    private void Display(ActionEvent event) {}
+    private void Limpiar(ActionEvent event) {
+        this.display.setText("");
+        resultado=null;
+        numero1=null;
+        numero2=null;
+        respuesta=null;
+    }
+
+    @FXML
+    private void Display(ActionEvent event) {
+    }
 
 }
