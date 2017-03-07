@@ -52,6 +52,10 @@ public class FXMLDocumentController implements Initializable {
     private Button nueve;
     @FXML
     private TextField display;
+    @FXML
+    private TextField cuadroHistorial;
+    @FXML
+    private Button VerHistoria;
 
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
@@ -92,6 +96,7 @@ public class FXMLDocumentController implements Initializable {
             this.display.setText(this.display.getText() + "8");
         } else if (event.getSource() == nueve) {
             this.display.setText(this.display.getText() + "9");
+ 
         } else if (event.getSource() == cero) {
             this.display.setText(this.display.getText() + "0");
         }
@@ -100,19 +105,48 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void InsertarOperacor(ActionEvent event) {
         if (event.getSource() == sumar) {
-            numero1 = Double.parseDouble(this.display.getText());
+            if (numero1!=null) {
+                numero2=Double.parseDouble(this.display.getText());
+                resultado=sumar(numero1,numero2);
+                historial(numero1,"+",numero2);
+                numero1=resultado;
+            }else{
+                numero1 = Double.parseDouble(this.display.getText());
+            }
             operacion = "+";
             this.display.setText("");
         } else if (event.getSource() == restar) {
-            numero1 = Double.parseDouble(this.display.getText());
+             if (numero1!=null) {
+                numero2=Double.parseDouble(this.display.getText());
+                resultado=restar(numero1,numero2);
+                historial(numero1,"-",numero2);
+                numero1=resultado;
+            }else{
+                numero1 = Double.parseDouble(this.display.getText());
+            }
             operacion = "-";
             this.display.setText("");
         } else if (event.getSource() == multiplicar) {
-            numero1 = Double.parseDouble(this.display.getText());
+             if (numero1!=null) {
+                numero2=Double.parseDouble(this.display.getText());
+                resultado=multiplicar(numero1,numero2);
+                historial(numero1,"*",numero2);
+                numero1=resultado;
+                
+            }else{
+                numero1 = Double.parseDouble(this.display.getText());
+            }
             operacion = "*";
             this.display.setText("");
         } else if (event.getSource() == dividir) {
-            numero1 = Double.parseDouble(this.display.getText());
+             if (numero1!=null) {
+                numero2=Double.parseDouble(this.display.getText());
+                resultado=dividir(numero1,numero2);
+                historial(numero1,"/",numero2);
+                numero1=resultado;
+            }else{
+                numero1 = Double.parseDouble(this.display.getText());
+            }
             operacion = "/";
             this.display.setText("");
         }
@@ -123,9 +157,9 @@ public class FXMLDocumentController implements Initializable {
                if (operacion.equalsIgnoreCase("+")) {
                 respuesta = sumar(numero1, numero2);
             } else if (operacion.equalsIgnoreCase("-")) {
-                respuesta = restar(numero1, numero2);
+                respuesta = restar(numero1, numero2);  
             } else if (operacion.equalsIgnoreCase("*")) {
-                respuesta = multiplicar(numero1, numero2);
+                respuesta = multiplicar(numero1, numero2);  
             } else if (operacion.equalsIgnoreCase("/")) {
                 respuesta = dividir(numero1, numero2);
             }
@@ -134,17 +168,25 @@ public class FXMLDocumentController implements Initializable {
             else{
              if (operacion.equalsIgnoreCase("+")) {
                 resultado = sumar(respuesta, numero2);
+                   
             } else if (operacion.equalsIgnoreCase("-")) {
                 resultado = restar(respuesta, numero2);
             } else if (operacion.equalsIgnoreCase("*")) {
                 resultado = multiplicar(respuesta, numero2);
             } else if (operacion.equalsIgnoreCase("/")) {
-                resultado = dividir(respuesta, numero2);
+                resultado = dividir(respuesta, numero2); 
             }
             this.display.setText("" + resultado);
-        }
 
+
+        }
     }
+        if (event.getSource() == VerHistoria) {
+                  historial(numero1,operacion,numero2);
+                }   
+    }
+    private void historial(Double numero,String operacion,Double numero2){
+    this.cuadroHistorial.appendText(" "+numero+operacion+numero2+" | ");
     }
 
     private double sumar(double numero1, double numero2) {
@@ -186,6 +228,10 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void Display(ActionEvent event) {
+    }
+
+    @FXML
+    private void AccionHistorial(ActionEvent event) {
     }
 
 }
